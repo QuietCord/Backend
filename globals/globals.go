@@ -11,7 +11,14 @@ var (
 	HOST = os.Getenv("HOST")
 	PORT = os.Getenv("PORT")
 
-	REDIS_URI = os.Getenv("REDIS_URI")
+	// REDIS_URI or REDIS_URL (Railway/SnapDeploy often use REDIS_URL).
+	// Full URL: rediss://default:pass@host:6379 (Upstash). Docker Compose: redis:6379
+	REDIS_URI = func() string {
+		if u := os.Getenv("REDIS_URI"); u != "" {
+			return u
+		}
+		return os.Getenv("REDIS_URL")
+	}()
 
 	ROOT_REDIRECT = os.Getenv("ROOT_REDIRECT")
 

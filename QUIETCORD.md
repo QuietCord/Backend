@@ -8,7 +8,9 @@ Fork of [Vencord/Backend](https://github.com/Vencord/Backend) (AGPL) for the **Q
 
 ## Deploy (recommended)
 
-**Render + Upstash** — see [docs/DEPLOY-RENDER.md](docs/DEPLOY-RENDER.md) (`render.yaml` in repo root).
+**Render + Upstash** — [docs/DEPLOY-RENDER.md](docs/DEPLOY-RENDER.md)
+
+**SnapDeploy + Upstash** — [docs/DEPLOY-SNAPDEPLOY.md](docs/DEPLOY-SNAPDEPLOY.md) (no card on free tier)
 
 Optional: [docs/DEPLOY-FLY.md](docs/DEPLOY-FLY.md) if you use Fly.io instead.
 

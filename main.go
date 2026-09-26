@@ -95,6 +95,22 @@ func requireAuth(c *fiber.Ctx) error {
 	return c.Next()
 }
 
+func newRedisClient(uri string) *redis.Client {
+	if uri == "" {
+		panic("REDIS_URI or REDIS_URL is required")
+	}
+	if strings.HasPrefix(uri, "redis://") || strings.HasPrefix(uri, "rediss://") {
+		opt, err := redis.ParseURL(uri)
+		if err != nil {
+			panic(err)
+		}
+		return redis.NewClient(opt)
+	}
+	return redis.NewClient(&redis.Options{
+		Addr: uri,
+	})
+}
+
 func main() {
 	// environment
 	slRaw, _ := strconv.ParseInt(os.Getenv("SIZE_LIMIT"), 10, 0)
@@ -112,9 +128,7 @@ func main() {
 		ProxyHeader: os.Getenv("PROXY_HEADER"),
 	})
 
-	g.RDB = redis.NewClient(&redis.Options{
-		Addr: g.REDIS_URI,
-	})
+	g.RDB = newRedisClient(g.REDIS_URI)
 
 	if os.Getenv("PROMETHEUS") == "true" {
 		promauto.NewGaugeFunc(prometheus.GaugeOpts{
