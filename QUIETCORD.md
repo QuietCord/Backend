@@ -8,7 +8,9 @@ Fork of [Vencord/Backend](https://github.com/Vencord/Backend) (AGPL) for the **Q
 
 ## Deploy (recommended)
 
-**Fly.io** — see [docs/DEPLOY-FLY.md](docs/DEPLOY-FLY.md) (`fly.toml` in repo root).
+**Render + Upstash** — see [docs/DEPLOY-RENDER.md](docs/DEPLOY-RENDER.md) (`render.yaml` in repo root).
+
+Optional: [docs/DEPLOY-FLY.md](docs/DEPLOY-FLY.md) if you use Fly.io instead.
 
 Configure `.env` from `.env.example` for local Docker (Discord OAuth, Redis, peppers). Set `ROOT_REDIRECT` to this repo or your privacy docs.
 

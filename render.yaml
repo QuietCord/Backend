@@ -1,0 +1,22 @@
+# Render Blueprint — https://render.com/docs/blueprint-spec
+# Dashboard: New → Blueprint → connect QuietCord/Backend (or apply this file).
+
+services:
+  - type: web
+    name: quietcord-api
+    runtime: docker
+    plan: free
+    region: oregon
+    healthCheckPath: /v1/
+    envVars:
+      - key: HOST
+        value: 0.0.0.0
+      - key: PROMETHEUS
+        value: "false"
+      - key: PROXY_HEADER
+        value: X-Forwarded-For
+      - key: ROOT_REDIRECT
+        value: https://github.com/QuietCord/Backend
+      # Set these in the Render dashboard (Environment), not in git:
+      # REDIS_URI, DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI,
+      # PEPPER_SECRETS, PEPPER_SETTINGS — see docs/DEPLOY-RENDER.md
