@@ -1,0 +1,33 @@
+# QuietCord API on Fly.io (Dockerfile build).
+# First time: fly launch --no-deploy --copy-config (pick org/region), then secrets + fly deploy.
+# Docs: docs/DEPLOY-FLY.md
+
+app = "quietcord-api"
+primary_region = "dfw"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  HOST = "0.0.0.0"
+  PORT = "8080"
+  PROMETHEUS = "false"
+  PROXY_HEADER = "Fly-Client-IP"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    grace_period = "15s"
+    interval = "30s"
+    method = "GET"
+    path = "/v1/"
+    timeout = "5s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
