@@ -38,6 +38,7 @@ Save both; rotating them wipes existing cloud accounts.
 | `DISCORD_REDIRECT_URI` | `https://quietcord-api.onrender.com/v1/oauth/callback` |
 | `PEPPER_SECRETS` | hex from step 2 |
 | `PEPPER_SETTINGS` | hex from step 2 |
+| `ROOT_REDIRECT` | `https://github.com/QuietCord/Backend` (AGPL — not Vencord/Vencloud) |
 
 Optional: `ALLOWED_USERS=your_discord_user_id` (comma-separated) to lock the instance.
 
