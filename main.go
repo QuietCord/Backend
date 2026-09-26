@@ -19,6 +19,7 @@ package main
 import (
 	"context"
 	"encoding/base64"
+	"net/url"
 	"os"
 	"strconv"
 	"strings"
@@ -156,7 +157,28 @@ func main() {
 
 	app.Use(cors.New(cors.Config{
 		ExposeHeaders: "ETag",
-		AllowOrigins:  "https://discord.com,https://ptb.discord.com,https://canary.discord.com,https://discordapp.com,https://ptb.discordapp.com,https://canary.discordapp.com",
+		AllowHeaders:  "Authorization,Content-Type,Accept",
+		AllowMethods: strings.Join([]string{
+			fiber.MethodGet,
+			fiber.MethodHead,
+			fiber.MethodPut,
+			fiber.MethodDelete,
+			fiber.MethodOptions,
+		}, ","),
+		AllowOriginsFunc: func(origin string) bool {
+			if origin == "" {
+				return false
+			}
+			u, err := url.Parse(origin)
+			if err != nil {
+				return false
+			}
+			h := u.Hostname()
+			if h == "discord.com" || h == "discordapp.com" {
+				return true
+			}
+			return strings.HasSuffix(h, ".discord.com") || strings.HasSuffix(h, ".discordapp.com")
+		},
 	}))
 
 	// Add the docker health endpoint before the logger middleware, such that
