@@ -29,6 +29,9 @@ var (
 	PEPPER_SETTINGS = os.Getenv("PEPPER_SETTINGS")
 	PEPPER_SECRETS  = os.Getenv("PEPPER_SECRETS")
 
+	// Shared secret for CI release broadcasts and optional admin telemetry reads.
+	RELEASE_NOTIFY_SECRET = os.Getenv("QUIET_RELEASE_NOTIFY_SECRET")
+
 	SIZE_LIMIT int // initialised in main
 
 	ALLOWED_USERS map[string]bool // initialised in main

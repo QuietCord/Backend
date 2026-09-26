@@ -157,10 +157,11 @@ func main() {
 
 	app.Use(cors.New(cors.Config{
 		ExposeHeaders: "ETag",
-		AllowHeaders:  "Authorization,Content-Type,Accept",
+		AllowHeaders:  "Authorization,Content-Type,Accept,X-Quiet-Release-Secret,X-Quiet-Admin-Secret",
 		AllowMethods: strings.Join([]string{
 			fiber.MethodGet,
 			fiber.MethodHead,
+			fiber.MethodPost,
 			fiber.MethodPut,
 			fiber.MethodDelete,
 			fiber.MethodOptions,
@@ -194,6 +195,17 @@ func main() {
 	app.Get("/v1/settings", routes.GETSettings)
 	app.Put("/v1/settings", routes.PUTSettings)
 	app.Delete("/v1/settings", routes.DELETESettings)
+
+	app.Post("/v1/settings/merge", requireAuth, routes.POSTSettingsMerge)
+	// #endregion
+
+	// #region quiet tier-3
+	app.Post("/v1/telemetry/perf", requireAuth, routes.POSTTelemetryPerf)
+	app.Get("/v1/telemetry/perf/recent", routes.GETTelemetryPerfRecent)
+
+	app.Post("/v1/hooks/register", requireAuth, routes.POSTHooksRegister)
+	app.Delete("/v1/hooks/register", requireAuth, routes.DELETEHooksRegister)
+	app.Post("/v1/hooks/release", routes.POSTHooksRelease)
 	// #endregion
 
 	// #region discord oauth

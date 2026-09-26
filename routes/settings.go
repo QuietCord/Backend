@@ -70,14 +70,19 @@ func PUTSettings(c *fiber.Ctx) error {
 
 	now := time.Now().UnixMilli()
 
-	_, err := g.RDB.HSet(c.Context(), "settings:"+util.Hash(g.PEPPER_SETTINGS+userId), map[string]interface{}{
-		"value":   c.Body(),
+	settingsHash := util.Hash(g.PEPPER_SETTINGS + userId)
+	body := c.Body()
+
+	_, err := g.RDB.HSet(c.Context(), "settings:"+settingsHash, map[string]interface{}{
+		"value":   body,
 		"written": now,
 	}).Result()
 
 	if err != nil {
 		panic(err)
 	}
+
+	appendSettingsHistory(c.Context(), userId, now, body)
 
 	return c.JSON(&fiber.Map{
 		"written": now,

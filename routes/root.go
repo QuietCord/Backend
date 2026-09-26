@@ -11,8 +11,12 @@ import (
 
 func DELETE(c *fiber.Ctx) error {
 	userId := c.Context().UserValue("userId").(string)
+	settingsHash := util.Hash(g.PEPPER_SETTINGS + userId)
 
-	g.RDB.Del(c.Context(), "settings:"+util.Hash(g.PEPPER_SETTINGS+userId))
+	g.RDB.Del(c.Context(), "settings:"+settingsHash)
+	g.RDB.Del(c.Context(), "settings:hist:"+settingsHash)
+	g.RDB.Del(c.Context(), "hooks:"+settingsHash)
+	g.RDB.SRem(c.Context(), "hooks:subs", settingsHash)
 	g.RDB.Del(c.Context(), "secrets:"+util.Hash(g.PEPPER_SECRETS+userId))
 
 	return c.SendStatus(204)
