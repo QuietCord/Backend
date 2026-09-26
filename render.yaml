@@ -1,5 +1,4 @@
 # Render Blueprint — https://render.com/docs/blueprint-spec
-# Dashboard: New → Blueprint → connect QuietCord/Backend (or apply this file).
 
 services:
   - type: web
@@ -7,6 +6,8 @@ services:
     runtime: docker
     plan: free
     region: oregon
+    repo: https://github.com/QuietCord/Backend
+    branch: main
     healthCheckPath: /v1/
     envVars:
       - key: HOST
@@ -17,6 +18,16 @@ services:
         value: X-Forwarded-For
       - key: ROOT_REDIRECT
         value: https://github.com/QuietCord/Backend
-      # Set these in the Render dashboard (Environment), not in git:
-      # REDIS_URI, DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET, DISCORD_REDIRECT_URI,
-      # PEPPER_SECRETS, PEPPER_SETTINGS — see docs/DEPLOY-RENDER.md
+      - key: DISCORD_CLIENT_ID
+        value: "1553407390182019282"
+      - key: DISCORD_REDIRECT_URI
+        value: https://quietcord-api.onrender.com/v1/oauth/callback
+      - key: PEPPER_SECRETS
+        generateValue: true
+      - key: PEPPER_SETTINGS
+        generateValue: true
+      # Render prompts on first Blueprint sync (not stored in git):
+      - key: REDIS_URI
+        sync: false
+      - key: DISCORD_CLIENT_SECRET
+        sync: false

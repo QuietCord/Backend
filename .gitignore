@@ -1,12 +1,2 @@
-.env
-
-.idea
-.DS_Store
-
-redis-data
-docker-compose.override.yml
-
-# binaries
-Backend
-Backend.exe
-backend
+# Local secrets for Render setup — never commit.
+.env.render.local
